@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # StudentManager
 
 基于 Servlet + JSP 实现的简易版的学生管理系统，原文地址：https://www.jianshu.com/p/553fc76bb8eb
@@ -144,3 +145,6 @@ function checkEmpty(id, name) {
 ![](https://github.com/wmyskxz/StudentManager/blob/master/checkEmpty2.png)
 
 - 当进入编辑页面的时候已经有默认的勾选项了，所以 sex 值仍然不需要判空
+=======
+# StudentManager
+>>>>>>> 08a1dbc6e119bbb477faccb2e9a4fc08fda53550
