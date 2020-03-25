@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# StudentManager
+# StudentManager for test
 
 基于 Servlet + JSP 实现的简易版的学生管理系统，原文地址：https://www.jianshu.com/p/553fc76bb8eb
 
