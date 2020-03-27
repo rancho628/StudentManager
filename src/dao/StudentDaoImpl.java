@@ -15,150 +15,150 @@ import java.util.List;
  */
 public class StudentDaoImpl implements StudentDao {
 
-	@Override
-	public int getTotal() {
+    @Override
+    public int getTotal() {
 
-		int total = 0;
+        int total = 0;
 
-		String sql = "SELECT COUNT(*) FROM student";
-		try (Connection c = DBUtil.getConnection(); Statement st = c.createStatement()) {
+        String sql = "SELECT COUNT(*) FROM student";
+        try (Connection c = DBUtil.getConnection(); Statement st = c.createStatement()) {
 
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				total = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return total;
-	}
+        return total;
+    }
 
-	@Override
-	public void add(Student student) {
-		String sql = "INSERT INTO student VALUES(NULL,?,?,?,?,?)";
-		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+    @Override
+    public void add(Student student) {
+        String sql = "INSERT INTO student VALUES(NULL,?,?,?,?,?)";
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
-			ps.setInt(1, student.getStudentID());
-			ps.setString(2, student.getName());
-			ps.setInt(3, student.getAge());
-			ps.setString(4, student.getSex());
-			ps.setDate(5, new java.sql.Date(student.getBirthday().getTime()));
+            ps.setInt(1, student.getStudentID());
+            ps.setString(2, student.getName());
+            ps.setInt(3, student.getAge());
+            ps.setString(4, student.getSex());
+            ps.setDate(5, student.getBirthday() == null ? null : new java.sql.Date(student.getBirthday().getTime()));
 
-			ps.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	@Override
-	public void delete(int id) {
+    @Override
+    public void delete(int id) {
 
-		String sql = "DELETE FROM student WHERE ID = ?";
-		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        String sql = "DELETE FROM student WHERE ID = ?";
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
-			ps.setInt(1, id);
+            ps.setInt(1, id);
 
-			ps.execute();
+            ps.execute();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void update(Student student) {
+    @Override
+    public void update(Student student) {
 
-		String sql = "update student set student_id = ?, name = ?, age = ?, sex = ?, birthday = ? where id = ? ";
-		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        String sql = "update student set student_id = ?, name = ?, age = ?, sex = ?, birthday = ? where id = ? ";
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
-			ps.setInt(1, student.getStudentID());
-			ps.setString(2, student.getName());
-			ps.setInt(3, student.getAge());
-			ps.setString(4, student.getSex());
-			ps.setDate(5, new java.sql.Date(student.getBirthday().getTime()));
-			ps.setInt(6, student.getId());
+            ps.setInt(1, student.getStudentID());
+            ps.setString(2, student.getName());
+            ps.setInt(3, student.getAge());
+            ps.setString(4, student.getSex());
+            ps.setDate(5, new java.sql.Date(student.getBirthday().getTime()));
+            ps.setInt(6, student.getId());
 
-			ps.execute();
+            ps.execute();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public Student get(int id) {
-		Student student = new Student();
+    @Override
+    public Student get(int id) {
+        Student student = new Student();
 
-		String sql = "SELECT * FROM student WHERE ID = " + id;
-		try (Connection c = DBUtil.getConnection(); Statement st = c.createStatement()) {
+        String sql = "SELECT * FROM student WHERE ID = " + id;
+        try (Connection c = DBUtil.getConnection(); Statement st = c.createStatement()) {
 
-			ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql);
 
-			if (rs.next()) {
+            if (rs.next()) {
 
-				int student_id = rs.getInt("student_id");
-				String name = rs.getString("name");
-				int age = rs.getInt("age");
-				String sex = rs.getString("sex");
-				Date birthday = rs.getDate("birthday");
-				student.setStudentID(student_id);
-				student.setName(name);
-				student.setAge(age);
-				student.setSex(sex);
-				student.setBirthday(birthday);
-				student.setId(id);
-			}
+                int student_id = rs.getInt("student_id");
+                String name = rs.getString("name");
+                int age = rs.getInt("age");
+                String sex = rs.getString("sex");
+                Date birthday = rs.getDate("birthday");
+                student.setStudentID(student_id);
+                student.setName(name);
+                student.setAge(age);
+                student.setSex(sex);
+                student.setBirthday(birthday);
+                student.setId(id);
+            }
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return student;
-	}
+        return student;
+    }
 
-	@Override
-	public List<Student> list() {
-		return list(0, Short.MAX_VALUE);
-	}
+    @Override
+    public List<Student> list() {
+        return list(0, Short.MAX_VALUE);
+    }
 
-	@Override
-	public List<Student> list(int start, int count) {
-		List<Student> students = new ArrayList<>();
+    @Override
+    public List<Student> list(int start, int count) {
+        List<Student> students = new ArrayList<>();
 
-		String sql = "SELECT * FROM student ORDER BY student_id desc limit ?,?";
+        String sql = "SELECT * FROM student ORDER BY student_id desc limit ?,?";
 
-		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
-			ps.setInt(1, start);
-			ps.setInt(2, count);
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, start);
+            ps.setInt(2, count);
 
-			ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-			while (rs.next()) {
-				Student student = new Student();
-				int id = rs.getInt("id");
-				int studentID = rs.getInt("student_id");
-				String name = rs.getString("name");
-				int age = rs.getInt("age");
-				String sex = rs.getString("sex");
-				Date birthday = rs.getDate("birthday");
-				student.setId(id);
-				student.setStudentID(studentID);
-				student.setName(name);
-				student.setAge(age);
-				student.setSex(sex);
-				student.setBirthday(birthday);
+            while (rs.next()) {
+                Student student = new Student();
+                int id = rs.getInt("id");
+                int studentID = rs.getInt("student_id");
+                String name = rs.getString("name");
+                int age = rs.getInt("age");
+                String sex = rs.getString("sex");
+                Date birthday = rs.getDate("birthday");
+                student.setId(id);
+                student.setStudentID(studentID);
+                student.setName(name);
+                student.setAge(age);
+                student.setSex(sex);
+                student.setBirthday(birthday);
 
-				students.add(student);
-			}
+                students.add(student);
+            }
 
-			rs.close();
+            rs.close();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return students;
-	}
+        return students;
+    }
 }
